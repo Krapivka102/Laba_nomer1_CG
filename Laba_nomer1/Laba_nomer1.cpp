@@ -1,16 +1,12 @@
 ﻿#include <iostream>
 #include <GL/freeglut.h>
 
-static void RenderSceneCB()
+void RenderSceneCB()
 {
-    glClear(GL_COLOR_BUFFER_BIT);
-    glutSwapBuffers();
+    glClear(GL_COLOR_BUFFER_BIT); // это очистка буфера кадра
+    glutSwapBuffers(); // функция просит GLUT поменять фоновый буфер и буфер кадра местами
 }
 
-static void InitializeGlutCallbacks()
-{
-    glutDisplayFunc(RenderSceneCB);
-}
 
 int main(int argc, char ** argv)
 {
@@ -24,9 +20,6 @@ int main(int argc, char ** argv)
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-    glutMainLoop();
-
-    glClear(GL_COLOR_BUFFER_BIT);
-    glutSwapBuffers();
+    glutMainLoop(); // GLUT будет вызывать только функцию отображения на экран (RenderSceneCB), что бы дать ей возможность нарисовать кадр.
 }
 
