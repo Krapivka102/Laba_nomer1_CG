@@ -1,67 +1,67 @@
+	#include <GL/glew.h>
+	#include <iostream>
+	#include <GL/freeglut.h>
+	#include <glm/vec3.hpp>
+
+	GLuint VBO; // переменная для хранения указателя на буфер вершин
+	static void RenderSceneCB() 
+	{
+		glClear(GL_COLOR_BUFFER_BIT); // очищает буфер цвета
+		glEnableVertexAttribArray(0); // индексация
+
+		glBindBuffer(GL_ARRAY_BUFFER, VBO); // привязываем буфер для приготавливания его для отрисовки
+
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0); // как воспринимать данные внутри буфера(шейдеры, кол-во компонентов, тип данных, нормализация атрибута)
+
+		glDrawArrays(GL_TRIANGLES, 0, 3); // рисуем все
 
 
+		glDisableVertexAttribArray(0); // отключение индексации
+		glutSwapBuffers(); // смена буфера
+	}
 
 
+	int main(int argc, char** argv)
+	{
+		glutInit(&argc, argv); // инициализируем glut
+
+		glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA); // включение двойной буферизации и буфера цвета
+
+		glutInitWindowSize(1024, 768); // размер
+		glutInitWindowPosition(100, 100); // позиция на экране
+		glutCreateWindow("Tutorial 01"); // названия окна
+
+		glutDisplayFunc(RenderSceneCB); // регулярно вызывает рендер сцену 
+
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // цвет бг
+
+	
+		GLenum res = glewInit(); // инициализируем GLEW и проверяем на ошибки
+		if (res != GLEW_OK)
+		{
+			fprintf(stderr, "Error: '%s'\n", glewGetErrorString(res));
+			return 1;
+		}
+
+		//glm::vec3 Vertices[1]; // задаем массив и объявляем xyz нулями //
+		//Vertices[0] = glm::vec3(0.0f, 0.0f, 0.0f);
+
+		glm::vec3 Vertices[3]; // инициализация точек
+		Vertices[0] = glm::vec3(-1.0f, -1.0f, 0.0f); // XYZ
+		Vertices[1] = glm::vec3(1.0f, -1.0f, 0.0f);
+		Vertices[2] = glm::vec3(0.0f, 1.0f, 0.0f); 
+
+		
 
 
+		glGenBuffers(1, &VBO); // создание буфера для помещения объектов
+
+		glBindBuffer(GL_ARRAY_BUFFER, VBO); // связываем указатель к названию цели и затем запускаем команду на цель
+
+		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW); // наполняем данными (буффер массива вершин, размер, массив, статически)
+
+		glutMainLoop(); // цикл вызывающий дисплей фанк, чтобы дать ей возможность нарисовать кадр 
 
 
-
-
-
-
-
-
-
-
-
-
-#include <GL/glew.h>
-#include <iostream>
-#include <GL/freeglut.h>
-#include <glm/vec3.hpp>
-
-GLuint VBO;
-
-void RenderSceneCB()
-{
-    glClear(GL_COLOR_BUFFER_BIT); // это очистка буфера кадра
-    glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-    glDrawArrays(GL_POINTS, 0, 1);
-    glDisableVertexAttribArray(0);
-    glutSwapBuffers(); // функция просит GLUT поменять фоновый буфер и буфер кадра местами
-}
-
-
-int main(int argc, char ** argv)
-{
-    glutInit(&argc, argv);
-
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-
-    glutInitWindowSize(1024, 768);
-    glutInitWindowPosition(100, 100);
-    glutCreateWindow("Tutorial 01");
-
-    glutDisplayFunc(RenderSceneCB);
-
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-
-    GLenum res = glewInit();
-    if (res != GLEW_OK)
-    {
-        fprintf(stderr, "Error: '%s'\n", glewGetErrorString(res));
-        return 1;
-    }
-    glm::vec3 Vertices[1];
-    Vertices[0] = glm::vec3(0.0f, 0.0f, 0.0f);
-
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-
-    glutMainLoop();
-}
+	
+	}
